@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 FROM alpine:latest
 
-RUN apk add curl sqlite3
+RUN apk update && apk --no-cache add curl sqlite3
 RUN wget --content-disposition 'http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' \
     tar -xvzf Radarr*.linux*.tar.gz \
     mv Radarr /opt/
