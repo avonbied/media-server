@@ -1,0 +1,9 @@
+# /etc/conf.d/radarr: config file for /etc/init.d/radarr
+
+#RADARRD_BINARY="/opt/Radarr/Radarr"
+#RADARR_OPTS="-nobrowser -data=/var/lib/radarr/"
+#RADARR_RETRY="TERM/60/KILL/10"
+
+#RADARR_LOGFILE="/var/log/${RC_SVCNAME}.log"
+#RADARR_ERRFILE="${RADARR_LOGFILE}"
+#RADARR_OUTFILE="${RADARR_LOGFILE}"
