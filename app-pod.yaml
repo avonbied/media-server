@@ -30,6 +30,8 @@ spec:
       value: 002
     - name: TZ
       value: Etc/UTC
+    - name: PORT
+      value: 5050
     tty: true
   - name: plex
     image: docker.io/hotio/plex:release
@@ -62,6 +64,8 @@ spec:
       value: false
     - name: PLEX_PURGE_CODECS
       value: false
+    - name: PORT
+      value: 32400
   - name: prowlarr
     image: docker.io/hotio/prowlarr:release
     ports:
@@ -81,6 +85,8 @@ spec:
       value: 002
     - name: TZ
       value: Etc/UTC
+    - name: PORT
+      value: 9696
     tty: true
   - name: qbittorrent
     image: docker.io/hotio/qbittorrent:release
@@ -103,6 +109,8 @@ spec:
       value: 002
     - name: WEBUI_PORTS
       value: 8080/tcp,8080/udp
+    - name: PORT
+      value: 8080
   - name: radarr
     image: docker.io/hotio/radarr:release
     ports:
@@ -122,6 +130,8 @@ spec:
       value: 1000
     - name: UMASK
       value: 002
+    - name: PORT
+      value: 7878
   - name: sonarr
     image: docker.io/hotio/sonarr:release
     ports:
@@ -141,6 +151,8 @@ spec:
       value: 1000
     - name: UMASK
       value: 002
+    - name: PORT
+      value: 8989
   volumes:
   - hostPath:
       path: /config
