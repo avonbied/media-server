@@ -5,25 +5,18 @@ name="radarr"
 description="Radarr Daemon"
 description_reload="Reload configuration without exiting"
 
-command="/opt/Radarr/Radarr"
-command_args="-nobrowser -data=/var/lib/radarr/"
+command="${RADARRD_BINARY:-/opt/Radarr/Radarr}"
+command_args="${RADARR_OPTS}"
 command_user="radarr:media"
-
-name=$RC_SVCNAME
-
 
 depend() {
 	after syslog net 
 }
-description_reload="Reload configuration without exiting"
 
-command="${DOCKERD_BINARY:-/usr/bin/dockerd}"
-command_args="${DOCKER_OPTS}"
-
-DOCKER_LOGFILE="${DOCKER_LOGFILE:-/var/log/${RC_SVCNAME}.log}"
-DOCKER_ERRFILE="${DOCKER_ERRFILE:-${DOCKER_LOGFILE}}"
-DOCKER_OUTFILE="${DOCKER_OUTFILE:-${DOCKER_LOGFILE}}"
-if [ "$DOCKER_ERRFILE" = "$DOCKER_OUTFILE" ]; then
+RADARR_LOGFILE="${RADARR_LOGFILE:-/var/log/${RC_SVCNAME}.log}"
+RADARR_ERRFILE="${RADARR_ERRFILE:-${RADARR_LOGFILE}}"
+RADARR_OUTFILE="${RADARR_OUTFILE:-${RADARR_LOGFILE}}"
+if [ "$RADARR_ERRFILE" = "$RADARR_OUTFILE" ]; then
 	LOGPROXY_OPTS="$LOGPROXY_OPTS -m"
 fi
 export \
@@ -34,26 +27,19 @@ export \
 	LOGPROXY_ROTATION_SUFFIX="${LOGPROXY_ROTATION_SUFFIX:-.%Y%m%d%H%M%S}" \
 	LOGPROXY_ROTATED_FILES="${LOGPROXY_ROTATE_FILES:-5}"
 
-output_logger="log_proxy $LOGPROXY_OPTS $DOCKER_OUTFILE"
-error_logger="log_proxy $LOGPROXY_OPTS $DOCKER_ERRFILE"
+output_logger="log_proxy $LOGPROXY_OPTS $RADARR_OUTFILE"
+error_logger="log_proxy $LOGPROXY_OPTS $RADARR_ERRFILE"
 
 extra_started_commands="reload"
 
-rc_ulimit="${DOCKER_ULIMIT:--c unlimited -n 1048576 -u unlimited}"
-
-retry="${DOCKER_RETRY:-TERM/60/KILL/10}"
-
-if [ -e /etc/profile.d/proxy.sh ]; then
-	. /etc/profile.d/proxy.sh
-fi
-
+retry="${RADARR_RETRY:-TERM/60/KILL/10}"
 depend() {
 	need sysfs cgroups net
 	after firewall
 }
 
 start_pre() {
-	checkpath -f -m 0644 -o root:docker "$DOCKER_ERRFILE" "$DOCKER_OUTFILE"
+	checkpath -f -m 0644 -o root:docker "$RADARR_ERRFILE" "$RADARR_OUTFILE"
 }
 
 reload() {
