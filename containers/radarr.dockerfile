@@ -2,8 +2,8 @@
 FROM alpine:latest
 
 RUN apk update && apk --no-cache add curl sqlite
-RUN wget -O Radarr.linux.tar.gz 'http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' \
-    tar -xvzf Radarr*.linux*.tar.gz \
+RUN wget -O Radarr.linux.tar.gz 'http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' &&\
+    tar -xvzf Radarr*.linux*.tar.gz &&\
     mv Radarr /opt/
 
 RUN addgroup radarr &&\
