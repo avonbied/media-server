@@ -5,14 +5,18 @@ RUN apk update && apk --no-cache add curl sqlite3
 RUN wget -O Radarr.linux.tar.gz 'http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' \
     tar -xvzf Radarr*.linux*.tar.gz \
     mv Radarr /opt/
-RUN chown radarr:radarr -R /opt/Radarr
 
-# Create Radarr service file
-RUN cat << EOF | sudo tee /etc/systemd/system/radarr.service > /dev/null \
-COPY radarr.service /etc/systemd/system/radarr.service
+RUN addgroup radarr &&\
+    adduser -D -G radarr radarr &&\
+    chown radarr:radarr -R /opt/Radarr
 
-# Set systemd daemon
-RUN systemctl -q daemon-reload && sudo systemctl enable --now -q radarr
+# Create Radarr RC file
+COPY radarr.conf /etc/conf.d/
+
+# Start Service
+RUN rc-service --list |\
+    rc-update add radarr default
+
 # Cleans up TAR
 RUN rm Radarr*.linux*.tar.gz
 
