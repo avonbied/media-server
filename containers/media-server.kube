@@ -1,0 +1,19 @@
+[Install]
+WantedBy=multi-user.target default.target
+
+[Unit]
+Description=Media server systemd kube
+Documentation=https://github.com/avonbied/media-server
+
+[Kube]
+Yaml=media-server.yaml
+Network=media-server.network
+# Plex, Overseerr, Radarr, qBitorrent, Sonarr, Prowlarr port
+PublishPort=32400:32400
+PublishPort=5055:5055
+PublishPort=7878:7878
+PublishPort=8080:8080
+PublishPort=8989:8989
+PublishPort=9696:9696
+# Use the envoy proxy config map in the same directory
+ConfigMap=media-server-configmap.yaml
