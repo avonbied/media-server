@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: media-server-configmap
+data:
+  # property-like keys; each key maps to a simple value
+  config_volume.props: |
+    path=/config
+    mount=/config
+  data_volume.props: |
+    path=/media/data
+    mount=/data
+  transcode_volume.props: |
+    path=/media/transcode
+    mount=/transcode
